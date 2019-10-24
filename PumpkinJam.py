@@ -103,6 +103,7 @@ class PumpkinJam(object):
         print(role_reviel)
         print(self.GameData.CO_dict)
         print(self.GameData.ESTIMATE_list)
+        print(self.GameData.VOTE_list)
         print(self.GameData.divine_dict)
 
         # 勝利陣営の取得

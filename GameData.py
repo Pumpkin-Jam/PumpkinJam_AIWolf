@@ -17,6 +17,7 @@ class GameData(object):
         
         self.CO_dict = {"VILLAGER":{}, "SEER":{}, "POSSESSED":{}, "WEREWOLF":{}} # key: AgentIdx, value: (day, turn, order)
         self.ESTIMATE_list = [[None for i in range(self.playerNum)] for j in range(self.playerNum)]
+        self.VOTE_list = [[None for i in range(self.playerNum)] for j in range(self.playerNum)]
         self.vote_dict = {}
 
         self.divine_dict = {} # key: AgentIdx, value: result
