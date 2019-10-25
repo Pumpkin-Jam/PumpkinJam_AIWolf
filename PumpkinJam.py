@@ -66,7 +66,7 @@ class PumpkinJam(object):
         print("生存者｛%s｝" % self.GameData.aliveAgent)
 
     def talk(self):
-        return "ESTIMATE Agent[02] VILLAGER"
+        return "REQUEST Agent[02] (REQUEST Agent[04] (VOTE Agent[02]))"
 
     def whisper(self):
         return cb.over()
@@ -101,9 +101,18 @@ class PumpkinJam(object):
             role_reviel[row["agent"]] = row["text"].split(" ")[2]
 
         print(role_reviel)
-        print(self.GameData.CO_dict)
-        print(self.GameData.ESTIMATE_list)
+        print("--------COリスト--------")
+        for key, value in self.GameData.CO_dict.items():
+            print("[{}]CO: {}".format(key, value))
+
+        print("--------ESTIMATE状況--------")
+        for i in range(self.GameData.playerNum):
+            for j in range(self.GameData.playerNum):
+                estimation = self.GameData.ESTIMATE_list[i][j]
+                if estimation != None:
+                    print("Agent[{}]⇒Agent[{}]：{}".format(i+1, j+1, estimation))
         print(self.GameData.VOTE_list)
+        print(self.GameData.DIVINED_list)
         print(self.GameData.divine_dict)
 
         # 勝利陣営の取得
