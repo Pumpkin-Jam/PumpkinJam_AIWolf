@@ -7,6 +7,8 @@ import PumpkinVillager as pv
 import GameData as gd
 import Talk_Text_Parser as ttp
 import read_diff_data as rdd
+import create_state as cs
+import Pumpkin_random as pr
 
 class PumpkinJam(object):
     # !!注意!!これは，クラスの__init__です．ゲームの初期化とは関係ないです．
@@ -25,7 +27,7 @@ class PumpkinJam(object):
         # GameDataのインスタンスを生成
         self.GameData = gd.GameData(self.base_info, self.diff_data, self.game_setting)
 
-        self.CO_dict = {}
+        self.agent = pr.Pumpkin_random(self.GameData)
 
         print("-----------------新しいゲーム-------------------")
         print("生存者: %s" % self.GameData.aliveAgent)
@@ -66,28 +68,22 @@ class PumpkinJam(object):
         print("生存者｛%s｝" % self.GameData.aliveAgent)
 
     def talk(self):
-        return "REQUEST Agent[02] (REQUEST Agent[04] (VOTE Agent[02]))"
+        return self.agent.talk()
 
     def whisper(self):
-        return cb.over()
+        return self.agent.whisper()
 
     def vote(self):
-        state = []
-        state.append(self.GameData.day)
-        alive_member_without_me = [idx for idx in self.GameData.aliveAgent if idx!=self.GameData.myAgentIdx]
-        print("投票先候補: %s" % alive_member_without_me)
-        vote_player_idx = random.choice(alive_member_without_me)
-        print("エージェント%sに投票" % vote_player_idx)
-        return vote_player_idx
+        return self.agent.vote()
 
     def attack(self):
-        return self.base_info["agentIdx"]
+        return self.agent.attack()
 
     def divine(self):
-        return self.base_info["agentIdx"]
+        return self.agent.divine()
 
     def guard(self):
-        return self.base_info["agentIdx"]
+        return self.agent.guard()
 
     def finish(self):
         print("------------<ゲーム終了>-------------")
@@ -114,6 +110,7 @@ class PumpkinJam(object):
         print(self.GameData.VOTE_list)
         print(self.GameData.DIVINED_list)
         print(self.GameData.divine_dict)
+        cs.create_state(self.GameData)
 
         # 勝利陣営の取得
         for idx, status in self.base_info["statusMap"].items():
